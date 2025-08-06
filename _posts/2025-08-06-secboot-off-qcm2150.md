@@ -32,7 +32,7 @@ When the `eFuses` have not been blown, the system reads a default value for the 
 
 On my device, I initially confirmed the unfused state through several indicators:
 
-**Fastboot Getvar**: In `fastboot` mode, the command `fastboot getvar secure` returned `no`.
+**Fastboot Getvar**: In `fastboot` mode, the command fastboot getvar secure returned no.
 
 ```bash
 $ fastboot getvar secure
@@ -40,7 +40,7 @@ $ fastboot getvar secure
   Finished. Total time: 0.007s
 ```
 
-**SEC Partition Format**: I dumped the `sec` partition via EDL mode. A Qualcomm `sec` partition consists of a Header (describing length, name, etc.), Content (specifying fuse bits and values to burn), and a Footer = SHA256(Header + Content). Evidently, the Content area of this partition was empty, perfectly matching the "unwritten" state.
+**SEC Partition Format**: A Qualcomm `sec` partition consists of a Header (describing length, name, etc.), Content (specifying fuse bits and values to burn), and a Footer = SHA256(Header + Content). Evidently, the Content area of this partition was empty, perfectly matching the "unwritten" state.
 
 ```
 00000000: ca 51 72 3b 29 6f 12 2a 02 00 00 00 20 00 00 00  .Qr;)o.*.... ...
