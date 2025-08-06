@@ -277,7 +277,7 @@ void cmd_getvar(char *arg, char *data, unsigned sz) {
 }
 ```
 
-While analyzing the dumped `Aboot` binary, I discovered a hidden treasure: the developers had left an `upload` function in the code but had not registered it as a `fastboot` command\! This function did the opposite of `download`, allowing for high-speed reading of a specified memory address and length, sent back over USB. This dramatically sped up my subsequent dumping of other images.
+While analyzing the dumped `Aboot` binary, I discovered a hidden treasure: the developers had left an `upload` function in the code as a `fastboot` command\! This function did the opposite of `download`, allowing for high-speed reading of a specified memory address and length, sent back over USB. This dramatically sped up my subsequent dumping of other images.
 
 ```c
 int cmd_upload(char *arg, char *data, int size)
