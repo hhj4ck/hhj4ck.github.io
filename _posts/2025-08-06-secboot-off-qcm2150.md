@@ -22,7 +22,7 @@ Throughout these years of research, I had often heard legends of "unfused" phone
 
 Until recently, that is. I finally encountered an unfused device, and a POS terminal at that. This gave me the opportunity to execute a full, `BootROM`-level code execution attack on the Qualcomm boot chain, following the sequence BootROM (PBL) -> SBL -> Trustzone & Aboot -> Kernel -> Android, patching `TrustZone` and the Kernel, and ultimately gaining root access post-boot.
 
-### 1\. The Physical Meaning of an "Unfused" Device
+### 1\. The Meaning of an "Unfused" Device
 
 First, let's clarify what "unfused," or "Secure Boot disabled," really means.
 
@@ -69,7 +69,7 @@ PK_HASH:           0xcc3153a80293939b90d02d3bf8b23e0292e452fef662c74998421adad42
 
 Barring any esoteric firmware modifications by the vendor, these points collectively confirmed that the device was indeed in a Secure Boot disabled state.
 
-### 2\. No Firehose Loader? Let SBL Be the Firehose
+### 2\. No Firehose Loader? Let SBL Be
 
 With the premise confirmed, the real challenge began. The POS terminal used a relatively obscure QCM2150 chip. Despite the fact that any validly signed `loader` should work without root signature verification, I couldn't find a single public `Firehose` loader for it. Without a `loader`, I couldn't use EDL mode to read/write the partitions and memory to execute Aleph Security's attack chain. In their research, Aleph Security had attempted to use a `Firehose` loader in place of the SBL ("Failed Attempts: Porting the Attack to Other Devices")<sup>[8](https://alephsecurity.com/2018/01/22/qualcomm-edl-5/)</sup> to achieve a chained boot, switching from EDL to Normal mode to start `TrustZone` and `Aboot`, and eventually bring up the full Android system. They found the main difference between the two was an entry in a function table that was `null` in `SBL1` but pointed to `firehose_main` in the `loader`. However, they abandoned this approach because they couldn't correctly restore the boot state and fully modify the boot flags passed from the `BootROM` to the `loader`. Their attempt illustrates that forcing a loader designed for EDL mode to perform a normal boot (or vice versa) is extremely difficult due to differing runtime memory states and device initialization statuses (especially for the flash storage). They ultimately relied on a hardware debugger to patch the chain stage by stage.
 
