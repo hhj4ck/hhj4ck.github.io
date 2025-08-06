@@ -4,7 +4,7 @@ title:  "A Full-Chain Exploit of an Unfused Qualcomm Device"
 categories: qualcomm
 tags: [qcm2150, edl, secure-boot]
 ---
-### **Introduction & Background**
+### **Background**
 
 I believe my journey into Secure Boot research began back in 2017. At the time, my focus was on the `bootloader`, or more precisely, the module that could be interacted with via `fastboot`. The main area of interest was vendor-specific custom commands, like those found in devices from Smartisan and Huawei<sup>[1](https://github.com/hhj4ck/BLUnlock)</sup>. Unlocking the `bootloader` to gain root access was the ultimate goal back then. Public research into `bootloader` vulnerabilities was still in its infancy, and due to their massive market share, efforts were largely concentrated on phones with Qualcomm chips. It wasn't long after, upon reviewing some related research, that I pivoted to Huawei's Secure Boot chain, but that's a story for another time<sup>[2](https://github.com/hhj4ck/EL3Tour),[3](https://github.com/hhj4ck/checkm30),[4](https://github.com/hhj4ck/CoreEscalation)</sup>.
 
@@ -20,7 +20,7 @@ Subsequently, Bjoern Kerler's EDL tool<sup>[6](https://github.com/bkerler/edl)</
 
 Throughout these years of research, I had often heard legends of "unfused" phones—devices where the security fuses had not been blown. Bjoern's code and the Hexacon presentation both mentioned such devices. My first encounter with the concept might have been from Edgar Barbosa's talk at Syscan 2016<sup>[7](https://www.yumpu.com/en/document/read/56698807/executing-code-in-the-trustzone-land)</sup>. He discovered that a Xiaomi Redmi Note 2 allowed flashing an arbitrary `tz.img`, granting him code execution in `TrustZone`. He may not have realized it at the time, but I suspect this was because Xiaomi had forgotten to blow the fuses on that model. My later work on Huawei helped me grasp the physical meaning of an unfused state. A key purpose of blowing fuses is to permanently write the hash of the root-of-trust public key into a non-modifiable region, thereby enabling Secure Boot. From that point on, only firmware signed by the vendor can be booted by the `BootROM`. The legend echoed on, but I had never seen such a device in the flesh.
 
-Until recently, that is. I finally encountered an unfused device, and a POS terminal at that. This gave me the opportunity to execute a full, `BootROM`-level code execution attack on the Qualcomm boot chain, following the sequence `BootROM (PBL) -> SBL -> Trustzone & Aboot -> Kernel -> Android`, patching `TrustZone` and the Kernel, and ultimately gaining root access post-boot.
+Until recently, that is. I finally encountered an unfused device, and a POS terminal at that. This gave me the opportunity to execute a full, `BootROM`-level code execution attack on the Qualcomm boot chain, following the sequence BootROM (PBL) -> SBL -> Trustzone & Aboot -> Kernel -> Android, patching `TrustZone` and the Kernel, and ultimately gaining root access post-boot.
 
 ### 1\. The Physical Meaning of an "Unfused" Device
 
@@ -40,7 +40,7 @@ $ fastboot getvar secure
   Finished. Total time: 0.007s
 ```
 
-**SEC Partition Format**: I dumped the `sec` partition via EDL mode. A Qualcomm `sec` partition consists of a Header (describing length, name, etc.), Content (specifying fuse bits and values to burn), and a Footer (=SHA256(Header + Content)). Evidently, the Content area of this partition was empty, perfectly matching the "unwritten" state.
+**SEC Partition Format**: I dumped the `sec` partition via EDL mode. A Qualcomm `sec` partition consists of a Header (describing length, name, etc.), Content (specifying fuse bits and values to burn), and a Footer = SHA256(Header + Content). Evidently, the Content area of this partition was empty, perfectly matching the "unwritten" state.
 
 ```
 00000000: ca 51 72 3b 29 6f 12 2a 02 00 00 00 20 00 00 00  .Qr;)o.*.... ...
@@ -69,7 +69,7 @@ PK_HASH:           0xcc3153a80293939b90d02d3bf8b23e0292e452fef662c74998421adad42
 
 Barring any esoteric firmware modifications by the vendor, these points collectively confirmed that the device was indeed in a Secure Boot disabled state.
 
-### 2\. No Firehose? Let SBL Be the Firehose
+### 2\. No Firehose Loader? Let SBL Be the Firehose
 
 With the premise confirmed, the real challenge began. The POS terminal used a relatively obscure QCM2150 chip. Despite the fact that any validly signed `loader` should work without root signature verification, I couldn't find a single public `Firehose` loader for it. Without a `loader`, I couldn't use EDL mode to read/write the partitions and memory to execute Aleph Security's attack chain. In their research, Aleph Security had attempted to use a `Firehose` loader in place of the SBL ("Failed Attempts: Porting the Attack to Other Devices")<sup>[8](https://alephsecurity.com/2018/01/22/qualcomm-edl-5/)</sup> to achieve a chained boot, switching from EDL to Normal mode to start `TrustZone` and `Aboot`, and eventually bring up the full Android system. They found the main difference between the two was an entry in a function table that was `null` in `SBL1` but pointed to `firehose_main` in the `loader`. However, they abandoned this approach because they couldn't correctly restore the boot state and fully modify the boot flags passed from the `BootROM` to the `loader`. Their attempt illustrates that forcing a loader designed for EDL mode to perform a normal boot (or vice versa) is extremely difficult due to differing runtime memory states and device initialization statuses (especially for the flash storage). They ultimately relied on a hardware debugger to patch the chain stage by stage.
 
