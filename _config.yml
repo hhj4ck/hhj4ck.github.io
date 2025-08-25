@@ -3,14 +3,14 @@ description: "Sec notes by Guanxing"
 baseurl: ""
 url: "https://hhj4ck.github.io"
 
-theme: minima            # 也可换 jekyll-theme-cayman 等
+theme: minima
 plugins:
-  - jekyll-feed         # RSS 自动生成
-  - jekyll-seo-tag      # SEO 与社媒卡片
+  - jekyll-feed
+  - jekyll-seo-tag
 
-# Minima Theme social links
 minima:
   social_links:
-    twitter: hhj4ck
-    github:  hhj4ck
+    - title: Guanxing
+      icon: x-twitter
+      url: "https://x.com/hhj4ck"
 
