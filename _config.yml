@@ -8,3 +8,9 @@ plugins:
   - jekyll-feed         # RSS 自动生成
   - jekyll-seo-tag      # SEO 与社媒卡片
 
+# Minima Theme social links
+minima:
+  social_links:
+    twitter: hhj4ck
+    github:  hhj4ck
+
