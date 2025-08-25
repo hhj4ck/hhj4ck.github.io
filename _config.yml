@@ -10,7 +10,6 @@ plugins:
 
 minima:
   social_links:
-    - title: Guanxing
-      icon: x-twitter
-      url: "https://x.com/hhj4ck"
-
+    - platform: twitter
+      user_url: "https://x.com/hhj4ck"
+      title: "Guanxing on X"
