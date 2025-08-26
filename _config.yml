@@ -1,0 +1,24 @@
+title: "Guanxing's Blog"
+url: "https://hhj4ck.github.io"
+
+remote_theme: "jekyll/minima@1722fcf"
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
+minima:
+  show_excerpts: false
+
+  skin: classic
+
+  social_links:
+    - title: "Guanxing on X"
+      icon: x-twitter
+      url: "https://x.com/hhj4ck"
+    - title: "Guanxing on GitHub"
+      icon: github
+      url: "https://github.com/hhj4ck"
+    - title: "Guanxing on Linkedin"
+      icon: linkedin
+      url: "https://www.linkedin.com/in/guanxing-wen-3b94a0288/"
