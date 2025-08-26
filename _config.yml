@@ -9,7 +9,7 @@ plugins:
 
 minima:
   show_excerpts: false
-
+  hide_site_feed_link: true
   skin: classic
 
   social_links:
