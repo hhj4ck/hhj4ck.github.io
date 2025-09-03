@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "A Full-Chain Exploit of an Unfused Qualcomm Device"
+lang: en
 categories: qualcomm
 tags: [qcm2150, edl, secure-boot]
 ---

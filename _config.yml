@@ -7,6 +7,9 @@ plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
 
+include: ["cn"]
+permalink: /:categories/:title.html
+
 minima:
   show_excerpts: false
   hide_site_feed_link: true

@@ -1,0 +1,14 @@
+<header class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+    <nav class="site-nav">
+        <div class="trigger">
+            {% if page.lang == 'cn' %}
+                <a class="page-link" href="{{ '/' | relative_url }}">English</a>
+            {% else %}
+                <a class="page-link" href="{{ '/cn/' | relative_url }}">中文</a>
+            {% endif %}
+        </div>
+    </nav>
+  </div>
+</header>
