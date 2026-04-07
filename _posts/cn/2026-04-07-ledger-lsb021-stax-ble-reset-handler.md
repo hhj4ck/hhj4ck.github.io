@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "当 reset_handler 变成参数：BLE 触发 Ledger Stax 变砖/代码执行"
+title: "当 reset_handler 可控：BLE 触发 Ledger Stax 变砖与代码执行"
 lang: cn
 category: cn
 post_id: ledger-lsb021-stax-ble-reset-handler

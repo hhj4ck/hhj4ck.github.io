@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "When reset_handler Becomes a Parameter: Hard Brick / Code Execution via BLE on Ledger Stax"
+title: "reset_handler as Input: Hard Brick & Code Execution on Ledger Stax"
 lang: en
 category: en
 post_id: ledger-lsb021-stax-ble-reset-handler
