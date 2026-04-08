@@ -56,7 +56,7 @@ After reassembly, the payload becomes the bootloader command layer. The full APD
 
 I then wrote a Python script to reproduce the recovery flow by hand, which confirmed the format and content of the communication. In the table below, “open-source reference” comes mainly from two places: names used in open-source clients such as `blue-loader-python`, and Ledger’s older open-source [Ledger Blue non-secure MCU firmware](https://github.com/LedgerHQ/blue-nonsecure-firmware). Its README says it is the proxy firmware running on the STM32L4 non-secure MCU and executing commands on behalf of the ST31 Secure Element. I only use it as a reference for naming and design intent.
 
-| Order | My script name | APDU bytes | Approximate name in open-source references | Purpose |
+| Order | cmd name | APDU bytes | related offical names | Purpose |
 |---|---|---|---|---|
 | 1 | `validate_targetid` | `e0040000 04 <target id>` | `INS_VALIDATE_TARGET_ID` / `validateTargetId` | Confirm the target device type |
 | 2 | `declare_length` | `e0000001 05 05 <length u32>` | No direct equivalent | Declare the length of the firmware to be written |
