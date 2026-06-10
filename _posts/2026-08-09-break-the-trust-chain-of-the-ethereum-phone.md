@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Break the Trust Chain of the Ethereum Phone"
-date: 2026-06-04 00:00:00 -0400
+date: 2026-08-09 00:00:00 -0400
 lang: en
 category: en
 image: /assets/images/dgen1/dgen1.png
